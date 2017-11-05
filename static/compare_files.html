@@ -1,0 +1,155 @@
+<!-- does not detect 1.0 and 1.00 -->
+<!-- detects whitespace -->
+<!-- detects bg o and en o -->
+<!-- show missing ids -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Сравни два файла за разлики</title>
+    <style>
+    #help-a:visited{
+	color:blue;
+    }
+    #help-a{
+	position:relative;
+	float:right;
+    }
+    table, tr {
+	border-bottom: 1px solid black;
+	border-top: 1px solid black;
+	border-collapse: collapse;
+	width:100%;
+    }
+    .head {
+	background-color: #CACACA;
+    }
+    </style>
+  </head>
+  <body>
+    Първи файл:
+    <input type="file" id="csv-file" name="files"/>
+    Втори файл:
+    <input type="file" id="csv-file-2" name="files2"/>
+    <button id="compare-btn"> Сравни </button>
+    <a href="#" id="help-a">Помощ</a>
+    <hr>
+    <p>Разлики:</p>
+    <table>
+      <thead>
+	<tr>
+          <td>Идентификатор:</td>
+	  <td>Първи файл, ред:</td>
+	  <td>Втори файл, ред:</td>
+	  <td>Номер на първата колонка, в която е открита разлика:</td>
+	</tr>
+      </thead>
+      <tbody id="diff-table">
+      </tbody> 	
+    </table>
+  </body>
+  <script src="jquery.min.js"></script>
+  <script src="csv.js"></script>
+  <script>
+    var firstRows = null;
+    function handleWhenFileFinishes(e){
+	var rows = CSV.parse(e.target.result);
+	firstRows = rows;
+	return this;
+    }
+    function readFileAndCall(f, func){
+	var reader = new FileReader();
+	reader.onload = (function(theFile) {
+            return func;
+	})(f);
+	reader.readAsText(f);
+    }
+    function anyDiffer(entry1, entry2){
+	var l = [];
+	for(var i = 0; i < entry1.length; i++){
+	    if (entry1[i] != entry2[i]){
+		l.push(i+1);
+	    }
+	}
+	return l;
+    }
+    function convertListToHTML(l, diff){
+	var s = "";
+	var paint = "";
+	if (diff != null) {
+	    diff = diff.map(function (c) {return c-1;});
+	}
+	for (var i = 0; i< l.length; i++){
+	    if (diff != null) {
+		if (diff.indexOf(i) > -1){
+		   paint=";color:red";
+		} else {
+		   paint="";
+		}
+	    }
+	    s += '  <div style="width:100%;display:inline' + paint  + '">' + l[i] + "</div>";
+	}
+	return s;
+    }
+    function insertMissing(element, line1, line2, firstL){
+	var s = '<tr class="head"><td>' + element[2].toString() + '-' + element[4].toString() + '</td>'
+	    + '<td>' + line1 + '</td>'
+	    +  '<td>' + line2 + '</td>'
+	    + '<td>' + firstL + '</td></tr>';
+	$('#diff-table').append(s);
+    }
+    function diffTwoFiles(e) {
+	var rows = CSV.parse(e.target.result);
+	var i = 1;
+	var k = 1;
+	var missing = true;
+	var firstRowsIds = [];
+	$('#diff-table').empty(); //empty beforehand
+	firstRows.forEach(function (el){
+	    missing = true;
+	    firstRowsIds.push([el[2], el[4]]);
+	    rows.forEach(function (el2) {
+		if ((el[2] == el2[2]) && (el[4] == el2[4])){
+		    missing = false;
+		    var d = anyDiffer(el, el2);
+		    if (d.length != 0){
+			insertMissing(el, i, k, d[0]);
+			var entries = convertListToHTML(el);
+			entries += "<br/> " + convertListToHTML(el2, d);
+			entries = "<tr><td style=\"width:50%\">" + entries +"</td></tr>";
+			$('#diff-table').append(entries);
+		    }
+		}
+		k++;
+	    });
+	    if (missing){
+		insertMissing(el, i, "липсва", "липсва");
+	    }
+	    k = 1;
+	    i++;
+	});
+	i = 1;
+	rows.forEach(function (el) {
+	    missing = true;
+	    firstRowsIds.forEach(function (el2) {
+		if ((el[2] == el2[0]) && (el[4] == el2[1])){
+		    missing = false;
+		}
+	    });
+	    if (missing){
+		insertMissing(el, "липсва", i, "липсва");
+	    }
+	    i++;
+	});
+    }
+    function handleCompare() {
+	var f = $('#csv-file')[0].files[0];
+	var f2 = $('#csv-file-2')[0].files[0];
+	readFileAndCall(f, function (e) {
+	    handleWhenFileFinishes(e);
+	    readFileAndCall(f2, diffTwoFiles);
+	});
+    }
+    $('#compare-btn').click(handleCompare);
+  </script>
+</html>

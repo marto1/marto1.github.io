@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head><meta charset='utf-8' /><meta name='keywords' content='mathproblems, lisp, induction' /><meta name='description' content='And his problem was big - like a
+life or death one. So the Jewish-Roman war was ongoing and he was
+trapped with 41 jewish rebels. And they didn't want to get
+captured. So what do you do then?... You decide to kill yourself.
+Luckily our guy didn't swing their way and decided to survive.' /><meta name='author' content='Martin Gergov' /><link type='text/css' rel='stylesheet' href='/static/main.css' /><script src='http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js' type='text/javascript'></script><script type='text/javascript' src='/static/menuswitch.js'></script><title>Joseph ben Matityahu had a problem once | Martin's windtrap</title></head><body><div class='page'><span style='display:none;' id='_context'> <a href='/'>Home</a> <a href='/log'>Log</a> <a href='/about'>About</a>&nbsp; </span><h2 class='heading'><a onclick='switch_menu($("#_theline"), $("#_context"));' id='_themenu'>[≣]</a><span id='_theline'>[2014-01-01]mathproblems:Joseph ben Matityahu had a problem once</span></h2><p class='reading'>And his problem was big - like a
+life or death one. So the Jewish-Roman war was ongoing and he was
+trapped with 41 jewish rebels. And they didn't want to get
+captured. So what do you do then?... You decide to kill yourself.
+Luckily our guy didn't swing their way and decided to survive.</p><h2 id='so_how_he_did_it_?' class='paraheading'>So how he did it ?</h2><p class='reading'>Well, the rebels decided to round up
+in a circle and kill every 2th(or was it 3th, whatever) person until
+no one has left. The trick was that the last one had to kill himself
+and thus if Joseph wanted to survive he had to be that person. Of
+course Joseph had a common lisp read-eval-print loop and wrote the
+following to get the spot of the survivor:</p><div style="text-align: left;" class="highlight"><pre><span class="p">(</span><span class="nb">defun</span> <span class="nv">kill-ring</span> <span class="p">(</span><span class="nv">l</span> <span class="nv">n</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nv">res</span> <span class="o">&#39;</span><span class="p">())</span> <span class="p">(</span><span class="nv">kill</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="p">(</span><span class="nb">dolist</span> <span class="p">(</span><span class="nv">x</span> <span class="nv">l</span><span class="p">)</span>
+      <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">eql</span> <span class="nv">kill</span> <span class="nv">n</span><span class="p">)</span>
+	  <span class="p">(</span><span class="nb">setf</span> <span class="nv">kill</span> <span class="mi">1</span><span class="p">)</span>
+	<span class="p">(</span><span class="nb">funcall</span>
+	 <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span>
+	   <span class="p">(</span><span class="nb">setf</span> <span class="nv">kill</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">kill</span> <span class="mi">1</span><span class="p">))</span>
+	   <span class="p">(</span><span class="nb">setf</span> <span class="nv">res</span> <span class="p">(</span><span class="nb">append</span> <span class="nv">res</span> <span class="p">(</span><span class="nb">list</span> <span class="nv">x</span><span class="p">)))))))</span>
+    <span class="c1">;; Also, print steps, I&#39;m lazy</span>
+    <span class="p">(</span><span class="nb">print</span> <span class="nv">res</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">&lt;</span> <span class="p">(</span><span class="nb">length</span> <span class="nv">res</span><span class="p">)</span> <span class="nv">n</span><span class="p">)</span>
+	<span class="nv">res</span>
+      <span class="p">(</span><span class="nb">setf</span> <span class="nv">res</span> <span class="p">(</span><span class="nv">kill-ring</span> <span class="nv">res</span> <span class="nv">n</span><span class="p">)))))</span>
+</pre></div><p class='reading'>So naturally he entered something like:<pre><p class='reading'>(kill-ring '(1 2 3 4 5) 2)</p></pre></p><p class='reading'>and got the answer (1)  <b>BUT </b>what I forgot to tell you is that the killing
+persisted(and did not began from the start every time). What this means is
+that if we have (1 2 3 4 5) and have to kill every 2th person we will go:
+2, 4, 1, 5, therefore 3 is the right place to be. And he decided that it is
+a good time to modify:</p><div style="text-align: left;" class="highlight"><pre><span class="p">(</span><span class="nb">defun</span> <span class="nv">kill-ring-cycle</span> <span class="p">(</span><span class="nv">l</span> <span class="nv">n</span> <span class="k">&amp;optional</span> <span class="p">(</span><span class="nv">offset</span> <span class="mi">0</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nv">res</span> <span class="o">&#39;</span><span class="p">())</span> <span class="p">(</span><span class="nv">kill</span> <span class="p">(</span><span class="nb">+</span> <span class="mi">1</span> <span class="nv">offset</span><span class="p">))</span> <span class="p">(</span><span class="nv">last-kill</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nv">i</span> <span class="mi">0</span><span class="p">))</span>
+    <span class="p">(</span><span class="nb">dolist</span> <span class="p">(</span><span class="nv">x</span> <span class="nv">l</span><span class="p">)</span>
+      <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">eql</span> <span class="nv">kill</span> <span class="nv">n</span><span class="p">)</span>
+	  <span class="p">(</span><span class="nb">and</span> <span class="p">(</span><span class="nb">setf</span> <span class="nv">kill</span> <span class="mi">1</span><span class="p">)</span>
+	       <span class="p">(</span><span class="nb">setf</span> <span class="nv">last-kill</span> <span class="nv">i</span><span class="p">))</span>
+	<span class="p">(</span><span class="nb">funcall</span>
+	 <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span>
+	   <span class="p">(</span><span class="nb">setf</span> <span class="nv">kill</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">kill</span> <span class="mi">1</span><span class="p">))</span>
+	   <span class="p">(</span><span class="nb">setf</span> <span class="nv">res</span> <span class="p">(</span><span class="nb">append</span> <span class="nv">res</span> <span class="p">(</span><span class="nb">list</span> <span class="nv">x</span><span class="p">))))))</span>
+      <span class="p">(</span><span class="nb">setf</span> <span class="nv">i</span> <span class="p">(</span><span class="nb">+</span> <span class="mi">1</span> <span class="nv">i</span><span class="p">)))</span>
+    <span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nv">off</span> <span class="p">(</span><span class="nb">-</span> <span class="nv">n</span> <span class="p">(</span><span class="nb">-</span> <span class="nv">n</span> <span class="p">(</span><span class="nb">-</span> <span class="p">(</span><span class="nb">length</span> <span class="nv">l</span><span class="p">)</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">last-kill</span> <span class="mi">1</span><span class="p">))))))</span>
+      <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">&lt;</span> <span class="p">(</span><span class="nb">length</span> <span class="nv">res</span><span class="p">)</span> <span class="nv">n</span><span class="p">)</span>
+	  <span class="nv">res</span>
+	<span class="p">(</span><span class="nb">setf</span> <span class="nv">res</span> <span class="p">(</span><span class="nv">kill-ring-cycle</span> <span class="nv">res</span> <span class="nv">n</span> <span class="nv">off</span><span class="p">))))))</span>
+</pre></div><p class='reading'>Yet again he faced the limitations of his time -
+general purpose mechanical computing was expensive and slow, machine
+cycles were precious, his time alive - not that much so he can waste it. And if the story
+did sound at least a little consistent by far we can deduce that Joseph was
+reasonably smart. As a consequence he used
+mathematical induction to optimize his function.</p><h2 id='"bitte_anschnallen"_-_air_berlin' class='paraheading'>"Bitte Anschnallen" - Air Berlin</h2><p class='reading'>First, he catched a pattern - the number that survived was always odd.
+  Why? Well, because on the first iteration we "kill" every single one that
+  is not odd(and yes - this is a great pun). Next, he got that we have
+  three distinctive cases - n (half of people in the circle)
+  is 1, is an even number
+  or an odd number. We can produce the following open formulas(
+  this time in python):</p><p class='reading' style='text-align: left;'>1. For n = 1</p><div style="text-align: left;" class="highlight"><pre><span class="n">case1</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="mi">1</span>
+</pre></div><p class='reading' style='text-align: left;'>2. For 2n people(even) we
+  can do something for n = 5 and then produce all derivatives(in fact
+  we can do more, but it doesn't matter at this stage)</p><div style="text-align: left;" class="highlight"><pre><span class="n">case2</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="mi">3</span> <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">5</span> <span class="k">else</span> <span class="mi">2</span><span class="o">*</span><span class="n">case2</span><span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span>
+</pre></div><p class='reading' style='text-align: left;'>3. For 2n+1 people(odd) we do a similar thing(again not fully functional)</p><div style="text-align: left;" class="highlight"><pre><span class="n">case3</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="mi">3</span> <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">5</span> <span class="k">else</span> <span class="mi">2</span><span class="o">*</span><span class="n">case3</span><span class="p">((</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span>
+</pre></div><p class='reading'>Now is a good time to unfold part of our brain potential and transform the above
+  to a closed form so that we can save our guy from getting killed(thus resulting
+  in him getting a shorter wiki page). So through observing pairs of n->X where
+  X is the surviving number we can deduce that the whole thing can be presented
+  in the form for every 2th person(<a href='http://en.wikipedia.org/wiki/Josephus_problem#Solution'>here is the whole thing</a>):</p><div class="highlight" style="text-align: left;"><pre><span class="p">(</span><span class="nb">defun</span> <span class="nv">kill-ring-optimzed-cycle</span> <span class="p">(</span><span class="nv">N</span><span class="p">)</span>
+  <span class="p">(</span><span class="nb">+</span> <span class="p">(</span><span class="nb">*</span> <span class="mi">2</span> <span class="p">(</span><span class="nb">-</span> <span class="nv">n</span> <span class="p">(</span><span class="nb">expt</span> <span class="mi">2</span> <span class="p">(</span><span class="nb">truncate</span> <span class="p">(</span><span class="nb">log</span> <span class="nv">N</span> <span class="mi">2</span><span class="p">)))))</span> <span class="mi">1</span><span class="p">))</span></div><p class='reading'><i>It is good to point out that this is a work of fiction and Joseph
+might not really needed to use an interpreter(some other stuff might
+not be true too)</i></p><div class='footer'><p class='reading'>© Copyright 2017 Martin Gergov. Content: <a href='http://www.creativecommons.org/licenses/by/2.5/'>Creative Commons</a></p><p class='reading'>We can talk on <a href='mailto:martingergov1@gmail.com'>mail</a>, <a href='https://twitter.com/marto1_'>twitter</a> (in that order or sharks with missile launchers will get you).<p class='reading'>Made with <a href='http://flask.pocoo.org/'>flask</a> that has a <a href='http://www.sbcl.org/'>lisp</a>.</p></p></div></div></body></html>

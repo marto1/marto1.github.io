@@ -1,0 +1,201 @@
+/* Pygmentize starts here */
+.hll { background-color: #ffffcc }
+.c { color: #586e75; font-style: italic } /* Comment */
+.err { color: #dc322f } /* Error */
+.g { color: #839496 } /* Generic */
+.k { color: #859900 } /* Keyword */
+.l { color: #839496 } /* Literal */
+.n { color: #93a1a1 } /* Name */
+.o { color: #839496 } /* Operator */
+.x { color: #839496 } /* Other */
+.p { color: #839496 } /* Punctuation */
+.cm { color: #586e75; font-style: italic } /* Comment.Multiline */
+.cp { color: #586e75; font-style: italic } /* Comment.Preproc */
+.c1 { color: #586e75; font-style: italic } /* Comment.Single */
+.cs { color: #586e75; font-style: italic } /* Comment.Special */
+.gd { color: #839496 } /* Generic.Deleted */
+.ge { color: #839496 } /* Generic.Emph */
+.gr { color: #839496 } /* Generic.Error */
+.gh { color: #839496 } /* Generic.Heading */
+.gi { color: #839496 } /* Generic.Inserted */
+.go { color: #839496 } /* Generic.Output */
+.gp { color: #839496 } /* Generic.Prompt */
+.gs { color: #839496 } /* Generic.Strong */
+.gu { color: #839496 } /* Generic.Subheading */
+.gt { color: #839496 } /* Generic.Traceback */
+.kc { color: #859900 } /* Keyword.Constant */
+.kd { color: #859900 } /* Keyword.Declaration */
+.kn { color: #cb4b16 } /* Keyword.Namespace */
+.kp { color: #cb4b16 } /* Keyword.Pseudo */
+.kr { color: #859900 } /* Keyword.Reserved */
+.kt { color: #859900 } /* Keyword.Type */
+.ld { color: #839496 } /* Literal.Date */
+.m { color: #2aa198 } /* Literal.Number */
+.s { color: #2aa198 } /* Literal.String */
+.na { color: #839496 } /* Name.Attribute */
+.nb { color: #268bd2 } /* Name.Builtin */
+.nc { color: #268bd2 } /* Name.Class */
+.no { color: #b58900 } /* Name.Constant */
+.nd { color: #cb4b16 } /* Name.Decorator */
+.ni { color: #cb4b16 } /* Name.Entity */
+.ne { color: #cb4b16 } /* Name.Exception */
+.nf { color: #268bd2 } /* Name.Function */
+.nl { color: #839496 } /* Name.Label */
+.nn { color: #b58900 } /* Name.Namespace */
+.nx { color: #839496 } /* Name.Other */
+.py { color: #268bd2 } /* Name.Property */
+.nt { color: #859900 } /* Name.Tag */
+.nv { color: #cb4b16 } /* Name.Variable */
+.ow { color: #859900 } /* Operator.Word */
+.w { color: #002b36 } /* Text.Whitespace */
+.mf { color: #2aa198 } /* Literal.Number.Float */
+.mh { color: #2aa198 } /* Literal.Number.Hex */
+.mi { color: #2aa198 } /* Literal.Number.Integer */
+.mo { color: #2aa198 } /* Literal.Number.Oct */
+.sb { color: #2aa198 } /* Literal.String.Backtick */
+.sc { color: #2aa198 } /* Literal.String.Char */
+.sd { color: #2aa198 } /* Literal.String.Doc */
+.s2 { color: #2aa198 } /* Literal.String.Double */
+.se { color: #cb4b16 } /* Literal.String.Escape */
+.sh { color: #2aa198 } /* Literal.String.Heredoc */
+.si { color: #cb4b16 } /* Literal.String.Interpol */
+.sx { color: #2aa198 } /* Literal.String.Other */
+.sr { color: #2aa198 } /* Literal.String.Regex */
+.s1 { color: #2aa198 } /* Literal.String.Single */
+.ss { color: #2aa198 } /* Literal.String.Symbol */
+.bp { color: #268bd2; font-weight: bold } /* Name.Builtin.Pseudo */
+.vc { color: #268bd2 } /* Name.Variable.Class */
+.vg { color: #268bd2 } /* Name.Variable.Global */
+.vi { color: #268bd2 } /* Name.Variable.Instance */
+.il { color: #2aa198 } /* Literal.Number.Integer.Long */
+/* Pygmentize ends here */
+
+/* color scheme/styling starts here */
+body { background-color: #073642;}
+.reading { color:#839496;}
+h2 {color: #859900;}
+.heading  {color: #90FF00;}
+.heading a {color: #90FF00;}
+.reading ul{ color:#839496;}
+
+/* color scheme ends here*/
+
+/* positioning starts here */
+.reading {
+    word-wrap: break-word;
+    max-width:55em;
+    font-stretch: normal;
+}
+
+.page {
+    min-width:100px;
+    max-width:740px;
+    margin:0px auto;
+    text-align:left;
+}
+
+@media (min-width: 500px) { 
+    .page {
+	padding:1ex;
+    }
+}
+@media (max-width: 500px) { 
+    .page {
+	padding:0px;
+    }
+}
+
+.heading {
+    word-wrap: break-word;
+    max-width:55em;
+}
+.heading a {
+    text-decoration:none;
+}
+
+.paraheading {
+    word-wrap: break-word;
+    max-width:55em;
+}
+
+.footer {
+    border-top: 3px solid rgb(133, 153, 0);
+    text-align:center;
+    line-height:50%;
+}
+
+.footer a {
+    text-decoration:underline;
+}
+
+
+
+/* positioning ends here */
+
+
+/* fonts  starts here*/
+@font-face {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  src: local("Roboto Regular"),
+  local("Roboto-Regular"),
+  url("http://themes.googleusercontent.com/static/fonts/roboto/v10/2UX7WLTfW3W8TclTUvlFyQ.woff") format("woff");
+}
+.reading {
+    font-family: "Roboto";
+    font-size: 1em;
+}
+
+.reading li {
+    font-family: "Roboto";
+    font-size: 1em;
+}
+
+
+.heading {
+    font-family: 'DejaVu Sans Mono', "Adobe Caslon Pro", "Hoefler Text", Georgia, Garamond, Times, sans;
+    font-size: 1.1em;
+}
+@media (max-width: 700px) { 
+    .heading {
+	font-size: 0.8em;
+    }
+}
+
+.paraheading {
+    font-family: 'DejaVu Sans Mono', "Adobe Caslon Pro", "Hoefler Text", Georgia, Garamond, Times, sans;
+    font-size: 1.2em;
+}
+.paraheading a {  font-style: normal;
+	      font-variant: normal;
+	      color: #dc322f;
+	      font-size: inherited;
+	      text-decoration:none;
+	   }
+
+
+.reading a {  font-style: normal;
+	      font-variant: normal;
+	      color: #268bd2;
+	      font-size: 1em;
+	   }
+
+.leftside {
+    position:relative;
+    float:left;
+}
+.rightside {
+    position:relative;
+    float:right;
+}
+
+/* fonts ends here*/
+
+/* effects start here */
+.heading a:hover {
+    cursor: pointer; 
+    cursor: hand; 
+    transition: all 0.3s ease-in;
+    text-shadow: 0 0 0.2em #F87, 0 0 0.2em #F87;
+}
