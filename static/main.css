@@ -199,3 +199,17 @@ h2 {color: #859900;}
     transition: all 0.3s ease-in;
     text-shadow: 0 0 0.2em #F87, 0 0 0.2em #F87;
 }
+
+
+.quotebash {
+    font: 14px/20px italic Times, serif;
+    padding: 8px;
+    background-color: #faebbc;
+    border-top: 1px solid #e1cc89;
+    border-bottom: 1px solid #e1cc89;
+    margin: 5px;
+    background-image: url(images/openquote1.gif);
+    background-position: top left;
+    background-repeat: no-repeat;
+    text-indent: 23px;
+}
