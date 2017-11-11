@@ -23,7 +23,7 @@ $.ajax({
 		hacklist.append(v);
 		description = "";
 	    } else {
-		description += line;
+		description += line + "\n";
 	    }
 	});
 	//last element
