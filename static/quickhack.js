@@ -1,3 +1,7 @@
+function escapeHTML(s) {
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
 function include_description(element, description) {
     element.html(element.html() +
 		"<p class=\"quotebash\">" + description + "</p>");
@@ -17,9 +21,9 @@ $.ajax({
 	    if (line.startsWith("* ")){
 		if (description != "") {
 		    include_description(hacklist.children().last(),
-					description)
+					escapeHTML(description))
 		}
-		v = "<li>" + line.slice(2) + "</li>"
+		v = "<li>" + escapeHTML(line.slice(2)) + "</li>"
 		hacklist.append(v);
 		description = "";
 	    } else {
