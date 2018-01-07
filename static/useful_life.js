@@ -12,7 +12,7 @@ function useful_life_calculate(startd, endd, repaird, sumtotal,
     var result = useful_years*12;
     result -= (repaird.getFullYear() - startd.getFullYear())*12;
     result += startd.getMonth() - repaird.getMonth() + 1;
-    result -= (days_in_month(startd) - startd.getDate() + 1) / 31.0;
+    result -= (days_in_month(startd) - startd.getDate() + 1) / days_in_month(startd);
     result = result / 12;
     //daydiff(new Date(repaird.getFullYear(), 0, 1, 0, 0, 0, 0), repaird)
     var days_total = (endd.getFullYear() - repaird.getFullYear())*12 + 1;
