@@ -150,6 +150,7 @@ h2 {color: #859900;}
 .reading li {
     font-family: "Roboto";
     font-size: 1em;
+    list-style-type: none;
 }
 
 
