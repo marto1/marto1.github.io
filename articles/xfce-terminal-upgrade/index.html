@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head><meta charset='utf-8' /><meta name='keywords' content='tutorial, xfce, terminal, xenial, 16.04' /><meta name='description' content='We all know Ubuntu's habbit of keeping software
+                    pretty outdated. Sometimes it makes sense.
+                    Sometimes it doesn't. This is one of the cases where
+                    it doesn't. The xfce terminal had some pretty
+                    significant changes over the years. I'm mostly
+                    interested in the shortcut improvements though.
+                    16.04 Xenial ships with 0.6.3. We can upgrade it to
+                    0.8.2 without any changes to the codebase and/or
+                    complex dependency resolving etc. I also can't see
+                    anything braking compitability so I cannot explain
+                    why the maintainers would want to keep this so
+                    outdated.' /><meta name='author' content='Martin Gergov' /><link type='text/css' rel='stylesheet' href='/static/main.css' /><script src='/static/jquery.min.js' type='text/javascript'></script><script type='text/javascript' src='/static/menuswitch.js'></script><title>Upgrade xfce terminal on 16.04 xenial | Martin's windtrap</title></head><body><div class='page'><span style='display:none;' id='_context'> <a href='/'>Home</a> <a href='/log'>Log</a> <a href='/about'>About</a>&nbsp; </span><h2 class='heading'><a onclick='switch_menu($("#_theline"), $("#_context"));' id='_themenu'>[≣]</a><span id='_theline'>[2018-04-28]tutorial:Upgrade xfce terminal on 16.04 xenial</span></h2><p class='reading'>We all know Ubuntu's habbit of keeping software
+                    pretty outdated. Sometimes it makes sense.
+                    Sometimes it doesn't. This is one of the cases where
+                    it doesn't. The xfce terminal had some pretty
+                    significant changes over the years. I'm mostly
+                    interested in the shortcut improvements though.
+                    16.04 Xenial ships with 0.6.3. We can upgrade it to
+                    0.8.2 without any changes to the codebase and/or
+                    complex dependency resolving etc. I also can't see
+                    anything braking compitability so I cannot explain
+                    why the maintainers would want to keep this so
+                    outdated.</p><h2 id='howto' class='paraheading'>Howto</h2><p class='reading'>Install yourself a git and build tools.</p><p class='quotebash'>sudo apt install git build-essential</p><p class='reading'>I had to install those packages in addition.
+                    For you there might be more:</p><p class='quotebash'>sudo apt install xfce4-dev-tools vte-2.91 vte-2.91-dev
+ sudo apt install libxfce4ui-2 libxfce4ui-2-dev</p><p class='reading'>Now we have to clone the repo and switch to 0.8.2:</p><p class='quotebash'>git clone https://github.com/xfce-mirror/xfce4-terminal.git
+            cd xfce4-terminal
+            git checkout xfce4-terminal-0.8.2</p><p class='reading'>Autogen script will prepare and configure for building:</p><p class='quotebash'>./autogen.sh</p><p class='reading'>Now do a make and make install:</p><p class='quotebash'>make
+                 sudo make install</p><p class='reading'>Close ALL xfce terminals(or reboot if you can't).
+                    Now you should have the 0.8.2 version.</p><h2 id='what_changed?' class='paraheading'>What changed?</h2><p class='reading'>For me the following are the most important changes.
+                    You can get all changes from the NEWS file:</p><p class='quotebash'>- Add Ctrl+Shift+PgUp/PgDn shortcuts to move tabs left/right (bug #11373)
+- Fix closing wrong tabs with Ctrl+Shift+W (bug #10691)
+- Add Ctrl+Shift+S hotkey to set title (bug #10960)</p><p class='reading'>I will probably find more good/bad changes later.</p><div class='footer'><p class='reading'>© Copyright 2018 Martin Gergov. Content: <a href='http://www.creativecommons.org/licenses/by/2.5/'>Creative Commons</a></p><p class='reading'>We can talk on <a href='mailto:martingergov1@gmail.com'>mail</a>, <a href='https://twitter.com/marto1_'>twitter</a> (in that order or sharks with missile launchers will get you).<p class='reading'>Made with <a href='http://flask.pocoo.org/'>flask</a> that has a <a href='http://www.sbcl.org/'>lisp</a>.</p></p></div></div></body></html>
