@@ -124,6 +124,17 @@ h2 {color: #859900;}
     line-height:50%;
 }
 
+@media (max-width: 600px) { 
+    .footer {
+	border-top: 3px solid rgb(133, 153, 0);
+	text-align:center;
+	line-height:100%;
+	font-size: 0.9em;
+    }
+}
+
+
+
 .footer a {
     text-decoration:underline;
 }
@@ -213,3 +224,4 @@ h2 {color: #859900;}
     background-repeat: no-repeat;
     white-space: pre-line;
 }
+
