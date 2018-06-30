@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang='en-US'><head><link rel='shortcut icon' href='/static/favicon.ico' /><meta name='yandex-verification' content='171a191b7370e956' /><meta name='viewport' content='width=device-width, initial-scale=1' /><meta charset='utf-8' /><meta name='keywords' content='math, , , ' /><meta name='description' content='Generating bounded polygons(part 1). 2018-06-30' /><meta name='author' content='Martin Gergov' /><link type='text/css' rel='stylesheet' href='/static/main.css' /><script src='/static/jquery.min.js'></script><script src='/static/menuswitch.js'></script><script src='https://pastebin.com/raw/GHJBJQR7'></script><title>Generating bounded polygons(part 1) | Martin's windtrap</title></head><body><div class='page'><span style='display:none;' id='_context'> <a href='/'>Home</a> <a href='/log'>Log</a> <a href='/about'>About</a>&nbsp; </span><h2 class='heading'><a onclick='switch_menu($("#_theline"), $("#_context"));' id='_themenu'>[☰]</a><span id='_theline'>[2018-06-30]math:Generating bounded polygons(part 1)</span></h2><h2 id='what?' class='paraheading'>What?</h2><p class='reading'>I have recently been really interested in making
+                    efficient alghorithms for graphics creation. In
+                    particular creating bounded polygons. That is -
+                    polygons where the beginning ties to the end
+                    and lines don't cross(so you don't have areas with
+                    0 area). To this we add 2 other constraints -
+                    we construct them from lines with equal fixed length
+                    and we allow only 90 degree angles. The end goal is
+                    to come up with a <a href='https://en.wikipedia.org/wiki/Closed-form_expression'>closed form</a> formula for producing
+                    polygons of any N lines. 
+                    Also we are working in the 2d plain.
+                    Here are some examples of
+                    what I am talking about:<li style='list-style-type: none;'><div><img style='max-height: 400px; max-width: 500px;' src='/static/images/polygons/exmp1.png' /><br /><p class='reading'>Top row contains only invalid polygons.
+                        From left to right 1st one is not bounded,
+                        2nd contains angles different than 90 degrees
+                        and 3rd has is made up of lines of unequal
+                        length. The bottom row is valid. 1st one
+                        is made up of 4 equal lines(square) and the
+                        second one of 8 equal lines.</p></div></li></p><h2 id='l-systems' class='paraheading'>L-systems</h2><p class='reading'>The current alghorithm is relatively simple.  We
+                    start out by introducing a abstraction on top of
+                    the target polygons so that we leave geometric
+                    space and enter algebraic space.  In this case a
+                    L-system or Lindenmayer system is a very neat
+                    abstract language for describing patterns. We have
+                    an initial sequence called an axiom. For example
+                    we can have the sequence ABC. Each letter is an
+                    action that does something like A can mean push a
+                    button, B can be trigger water irrigation. C can
+                    mean create AB in next step so we'll have ABAB in
+                    second generation. This "replication" is called
+                    a rule. A rule determains if an action, when
+                    processed will rewrite itself with another set of
+                    actions. This is very useful for describing
+                    organic compositions such a nature-looking tree or
+                    flower petals, etc. In our case we have a very
+                    simple alphabet consisting of F, R and L. F draws
+                    a line in the given direction(direction defaults
+                    to 3 o'clock), R turns direction 90 degrees to the
+                    right, L turns direction 90 degrees to the left.
+                    So we can have:</p><p class='quotebash'>FRFRFRF</p><p class='reading'>We draw line forward, turn to the right, draw, etc.
+                    until we get a square. This axiom meets all our 
+                    constraints. This is how the target polygon should
+                    "look" like.</p><h2 id='algorithm' class='paraheading'>Algorithm</h2><p class='reading'>The first very important observation is that for
+                    each line drawn we can take a decision to flip
+                    direction. So for example if we take our square
+                    example we can have F_F_F_F for n=4 we have n-1
+                    placeholders that can have R,L or nothing(denoted
+                    with _ here). So for N lines polygons we generate
+                    the product of all possible combinations of n-1
+                    _,R,L like so:</p><p class='quotebash'>list(product("_RL", repeat=4))</p><p class='reading'>which will produce things like ('_', '_', '_')
+                    which will produce a straight line of length 4 on
+                    the screen. Not a valid polygon. Another one is
+                    the familiar ('R', 'R', 'R') which makes a
+                    square. We obviously need to filter the valid
+                    cases from invalid ones. To do that we traverse
+                    all actions for an axiom and detect if the beginning
+                    will match with the end. We also keep a record of
+                    positions and track to not have the same ones 
+                    (except the initial one) which constitutes a cross
+                    To trace them we create a virtual coordinate system
+                    with initial coordinates 0,0. When traversing we
+                    keep track of the current coordinates and history
+                    for cross detection. So with FRFRFRF we have 
+                    0,0 → 1,0 → 1,-1 → 0,-1 → 0,0. Beginning
+                    matches the end and we don't have repeating
+                    coordinates so this one stays in the final set.</p><p class='reading'>Second observation is you cannot have a bounded
+                    polygon made up of odd number of equal length lines
+                    with 90 degree angles only.</p><h2 id='demo' class='paraheading'>Demo</h2><p class='reading'>You can check out the project <a href='https://github.com/marto1/pylsystem'>here</a>. Also here is a video of 
+                     generating polygons for n=12:</p><a href='https://gfycat.com/ScalyFrankBasil' rel='nofollow'><img src='https://raw.githubusercontent.com/marto1/pylsystem/master/polygon_holder.jpg' alt='polygon video' style='max-width:100%;' /></a><h2 id='future' class='paraheading'>Future</h2><p class='reading'>There is still filtering for symmetric shapes.
+                    So for example FRFRFRF and FLFLFLF are equivalent
+                    and only one of them should remain in the final
+                    set. Also there is compressing the whole thing down
+                    to a closed form expression. Hopefully in Part 2.</p><h2 class='sharebuttons heading'><span>share:<a href='https://twitter.com/share?url=https://marto1.github.io/articles/bounded-polygons-p1/'>[twitter]</a><a href='https://reddit.com/submit?url=https://marto1.github.io/articles/bounded-polygons-p1/'>[reddit]</a><a href='https://www.linkedin.com/shareArticle?url=https://marto1.github.io/articles/bounded-polygons-p1/'>[linkedin]</a><a href='https://plus.google.com/share?url=https://marto1.github.io/articles/bounded-polygons-p1/'>[g+]</a></span></h2><div class='footer'><p class='reading'>© Copyright 2018 Martin Gergov. Content: <a href='http://www.creativecommons.org/licenses/by/2.5/'>Creative Commons</a></p><p class='reading'>We can talk on <a href='mailto:martingergov1@gmail.com'>mail</a>, <a href='https://twitter.com/marto1_'>twitter</a> (in that order or sharks with missile launchers will get you).</p><p class='reading'>Made with <a href='http://flask.pocoo.org/'>flask</a> that has a <a href='http://www.sbcl.org/'>lisp</a>.</p></div></div></body></html>
