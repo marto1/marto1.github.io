@@ -4,7 +4,7 @@ function escapeHTML(s) {
 
 function include_description(element, description) {
     element.html(element.html() +
-		"<p class=\"quotebash\">" + description + "</p>");
+		"<p class=\"quotebash\"><code>" + description + "</code></p>");
 }
 
 $.ajax({

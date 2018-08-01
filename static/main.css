@@ -223,4 +223,24 @@ h2 {color: #859900;}
     background-position: top left;
     background-repeat: no-repeat;
     white-space: pre-line;
+    quotes: "\201C""\201D""\2018""\2019";
+    padding: .5em 10px; 
+    border-left: 10px solid #ccc;
+    display: block;
 }
+
+.pln {
+    display:none;
+}
+
+/* blockquote:before {   */
+/*     color: #ccc;   */
+/*     content: open-quote;   */
+/*     font-size: 4em;   */
+/*     line-height: .1em;   */
+/*     margin-right: .25em;   */
+/*     vertical-align: -.4em;   */
+/* }   */
+/* blockquote p {   */
+/*     display: inline;   */
+/* }  */
